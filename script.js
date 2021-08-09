@@ -153,12 +153,11 @@ function setSVG(img) {
   svgTag = document.querySelector("svg");
   svgTag.setAttribute("width", "288");
   svgTag.setAttribute("height", "288");
+  svgTag.style.visibility = "visible";
 
   updatedSVG = svgTag.outerHTML;
   getSVGColors(updatedSVG);
   setItemColor(colorArr);
-
-  svgTag.style.visibility = "visible";
 }
 
 function getSVGColors(initialSVG) {
@@ -298,11 +297,21 @@ function showMenu(menuName) {
     .getElementsByClassName(menuName + "-menu")[0]
     .classList.add("selectedOption");
 
+  if (state.selectedMenu === "item-color") {
+    itemColor();
+  }
+
   if (state.selectedMenu === "monochrome-color") {
     monochromeConvert(monochrome.hue, monochrome.saturation);
   }
   if (state.selectedMenu === "gray-tone") {
     grayToneConvert(graytone.hue, graytone.tone);
+  }
+}
+
+function itemColor() {
+  for (let i = 0; i < colorArr.length; i++) {
+    chageColorForMonoGray(colorArr[i][0], colorArr[i][1]);
   }
 }
 
@@ -374,7 +383,7 @@ function addTile(tile, tileSize, svgSize, tileColor, borderSize) {
 
 function addSquareTile(svg, tileSize, svgSize, tileColor, borderSize) {
   return `
-<svg width="288" height="288" viewbox="0 0 288 288">
+<svg width="288" height="288" viewbox="0 0 288 288" style="visibility: visible" >
   <rect width="288" height="288" ry="${borderSize * 100}" rx="${
     borderSize * 100
   }" transform="translate(${(288 - tileSize * 288) / 2}, ${
@@ -390,7 +399,7 @@ function addSquareTile(svg, tileSize, svgSize, tileColor, borderSize) {
 
 function addSquircleTile(svg, tileSize, svgSize, tileColor) {
   return `
-  <svg width="288" height="288" viewbox="0 0 288 288">
+  <svg width="288" height="288" viewbox="0 0 288 288" style="visibility: visible">
     <g transform="translate(${(288 - tileSize * 288) / 2}, ${
     (288 - tileSize * 288) / 2
   }) scale(${tileSize})">
@@ -413,7 +422,7 @@ function addSquircleTile(svg, tileSize, svgSize, tileColor) {
 
 function addCircleTile(svg, tileSize, svgSize, tileColor) {
   return `
-  <svg width="288" height="288" viewbox="0 0 288 288">
+  <svg width="288" height="288" viewbox="0 0 288 288" style="visibility: visible">
     <circle cx="${288 / 2}" cy="${288 / 2}" r="${
     288 / 2
   }" transform="translate(${(288 - tileSize * 288) / 2}, ${
@@ -429,7 +438,7 @@ function addCircleTile(svg, tileSize, svgSize, tileColor) {
 
 function addBeaconTile(svg, tileSize, svgSize, tileColor, borderSize) {
   return `
-  <svg width="288" height="288" viewbox="0 0 288 288">
+  <svg width="288" height="288" viewbox="0 0 288 288" style="visibility: visible">
     <g transform="translate(${(288 - tileSize * 288) / 2}, ${
     (288 - tileSize * 288) / 2
   }) scale(${tileSize})">
@@ -550,8 +559,8 @@ function onMonochromeDefaultColorHandler(event) {
   if (event.target.tagName === "LI") {
     let [h, s] = hexToHSL(rgb2hex(event.target.style.backgroundColor));
     monochrome.hue = h;
-    monochrome.saturation = s;
     monochromeConvert(monochrome.hue, monochrome.saturation);
+    monochromeHueSelect.value = monochrome.hue;
   }
 }
 
@@ -569,17 +578,13 @@ function monochromeConvert(hue, saturation) {
   for (let i = 0; i < colorArr.length; i++) {
     let [h, s, l] = hexToHSL(colorArr[i][0]);
     let color = hslToHex(hue, saturation, l);
-    chageColorForMonoGray(color, colorArr[i][1], i);
+    chageColorForMonoGray(color, colorArr[i][1]);
   }
 }
 
-function chageColorForMonoGray(color, index, colorIndex) {
-  document.querySelector(
-    `[itemColorIndex="${colorIndex}"]`
-  ).style.backgroundColor = state.selectedColor;
+function chageColorForMonoGray(color, index) {
   updatedSVG =
     updatedSVG.substring(0, index) + color + updatedSVG.substring(index + 7);
-  colorArr[state.itemColorIndex][0] = color;
   addTile(
     tiles.selectedTile,
     tiles.tileSize,
@@ -608,15 +613,16 @@ function onGrayToneValueChange(event) {
 
 function onGrayToneDefaultColorHandler(event) {
   if (event.target.tagName === "LI") {
-    let [h, s] = hexToHSL(rgb2hex(event.target.style.backgroundColor));
+    let [h] = hexToHSL(rgb2hex(event.target.style.backgroundColor));
     graytone.hue = h;
-    graytone.tone = s;
     monochromeConvert(graytone.hue, graytone.tone);
+    console.log(graytone.hue);
+    grayToneHueSelect.value = graytone.hue;
   }
 }
 
 function grayToneConvert(hue, tone) {
-  let color = hslToHex(graytone.hue, graytone.tone, 50);
+  let color = hslToHex(graytone.hue, 100, 50);
 
   document.getElementsByClassName(
     "show-gray-tone-color"
@@ -626,10 +632,12 @@ function grayToneConvert(hue, tone) {
     "show-gray-tone-color"
   )[0].childNodes[3].style.backgroundColor = color;
 
+  color = hslToHex(graytone.hue, graytone.tone, 50);
+
   for (let i = 0; i < colorArr.length; i++) {
     let [h, s, l] = hexToHSL(colorArr[i][0]);
     let color = hslToHex(hue, tone, l);
-    chageColorForMonoGray(color, colorArr[i][1], i);
+    chageColorForMonoGray(color, colorArr[i][1]);
   }
 }
 
