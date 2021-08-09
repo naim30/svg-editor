@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <title>SVG Editor</title>
+  </head>
+  <body>
+    <div class="svg-editor">
+      <div class="edit-option">
+        <div class="recolor-option">
+          <div>Recolor Options</div>
+          <div class="buttons" id="recolor-buttons">
+            <button class="item-color selectedRecolorOption">
+              <img src="./assets/itemColor.jpg" alt="item color" />
+            </button>
+            <button class="monochrome-color">
+              <img src="./assets//monochrome.jpg" alt="monochrome color" />
+            </button>
+            <button class="gray-tone">
+              <img src="./assets/grayTone.jpg" alt="gray tone" />
+            </button>
+          </div>
+        </div>
+        <div class="item-color-menu selectedOption">
+          <div class="colors">
+            <div>ITEM COLORS</div>
+            <ul id="item-color-list"></ul>
+          </div>
+          <div class="change-colors">
+            <div>CUSTOM COLORS</div>
+            <div class="color-input">
+              <input type="color" id="color-input" />
+            </div>
+          </div>
+          <div class="default-colors" id="item-default-color">
+            <div>DEFAULT COLORS</div>
+            <ul>
+              <li style="background-color: #3333cc"></li>
+              <li style="background-color: #00ff00"></li>
+              <li style="background-color: #9999ff"></li>
+              <li style="background-color: #99cc00"></li>
+              <li style="background-color: #993399"></li>
+              <li style="background-color: #003300"></li>
+              <li style="background-color: #ff0000"></li>
+              <li style="background-color: #ffff00"></li>
+            </ul>
+          </div>
+          <div class="colors-pallete"></div>
+        </div>
+        <div class="add-tiles-menu">
+          <div class="add-tiles-options" id="add-tiles-options">
+            <div>ADD TILE</div>
+            <ul>
+              <li class="none selectedTile"></li>
+              <li class="square" id="square"></li>
+              <li class="squircle"></li>
+              <li class="circle"></li>
+              <li class="beacon"></li>
+            </ul>
+          </div>
+          <div class="tile-change-colors">
+            <div>TILE COLORS</div>
+            <div class="tile-color-input">
+              <input type="color" id="tile-color-input" />
+            </div>
+          </div>
+          <div class="tile-range-input">
+            <div class="tile-icon-size">
+              <div>ICON SIZE</div>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                id="tile-icon-size"
+                value="0.5"
+              />
+            </div>
+            <div class="tile-tile-size">
+              <div>TILE SIZE</div>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                id="tile-tile-size"
+                value="0.9"
+              />
+            </div>
+            <div class="tile-border-size">
+              <div>TILE BORDER RADIUS</div>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                id="tile-border-size"
+                value="0.3"
+              />
+            </div>
+          </div>
+          <div class="tile-default-colors" id="tile-default-color">
+            <div>DEFAULT COLORS</div>
+            <ul>
+              <li style="background-color: #3333cc"></li>
+              <li style="background-color: #00ff00"></li>
+              <li style="background-color: #9999ff"></li>
+              <li style="background-color: #99cc00"></li>
+              <li style="background-color: #993399"></li>
+              <li style="background-color: #003300"></li>
+              <li style="background-color: #ff0000"></li>
+              <li style="background-color: #ffff00"></li>
+            </ul>
+          </div>
+        </div>
+        <div class="monochrome-color-menu">
+          <div class="hue-color-select">
+            <div>MONOCHROME COLOR</div>
+            <input
+              type="range"
+              min="0"
+              max="360"
+              step="1"
+              id="monochrome-hue-select"
+            />
+            <div class="show-monochrome-color">
+              <div>#00ffff</div>
+              <div></div>
+            </div>
+          </div>
+          <div class="saturation-select">
+            <div>SATURATION VALUE</div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              value="100"
+              id="monochrome-saturation-select"
+            />
+          </div>
+          <div class="monochrome-default-colors" id="monochrome-default-color">
+            <div>DEFAULT COLORS</div>
+            <ul>
+              <li style="background-color: #3333cc"></li>
+              <li style="background-color: #00ff00"></li>
+              <li style="background-color: #9999ff"></li>
+              <li style="background-color: #99cc00"></li>
+              <li style="background-color: #993399"></li>
+              <li style="background-color: #003300"></li>
+              <li style="background-color: #ff0000"></li>
+              <li style="background-color: #ffff00"></li>
+            </ul>
+          </div>
+        </div>
+        <div class="gray-tone-menu">
+          <div class="gray-tone-select">
+            <div>GRAY TONE</div>
+            <input
+              type="range"
+              min="0"
+              msx="360"
+              step="1"
+              id="gray-tone-hue-select"
+            />
+            <div class="show-gray-tone-color">
+              <div>#00ffff</div>
+              <div></div>
+            </div>
+          </div>
+          <div class="tone-value-select">
+            <div>TONE VALUE</div>
+            <input
+              type="range"
+              min="0"
+              max="50"
+              step="1"
+              value="25"
+              id="gray-tone-value-select"
+            />
+          </div>
+          <div class="gray-tone-default-colors" id="gray-tone-default-color">
+            <div>DEFAULT COLORS</div>
+            <ul>
+              <li style="background-color: #3333cc"></li>
+              <li style="background-color: #00ff00"></li>
+              <li style="background-color: #9999ff"></li>
+              <li style="background-color: #99cc00"></li>
+              <li style="background-color: #993399"></li>
+              <li style="background-color: #003300"></li>
+              <li style="background-color: #ff0000"></li>
+              <li style="background-color: #ffff00"></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="display-image">
+        <div class="display-menu">
+          <div class="add-tiles">
+            <div>Add Tile</div>
+            <div class="add-button" id="add-tiles-button">
+              <div>None</div>
+              <span>chevron_right</span>
+            </div>
+          </div>
+          <div class="reset-menu">
+            <div class="show-artboard">
+              <div class="checkbox" id="artboard-checkbox">
+                <span> check </span>
+              </div>
+              <div>Show Artboard</div>
+            </div>
+            <div class="reset" id="reset-button">Reset</div>
+          </div>
+        </div>
+        <div class="image" id="image">
+          <div class="artboard" id="artboard"></div>
+        </div>
+        <div class="dispaly-bottom-menu">
+          <input type="file" id="uploadNewSVG" />
+          <div class="download">
+            <div>Download</div>
+            <a id="download-avg-link"><button id="download-svg">SVG</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
