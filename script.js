@@ -237,16 +237,41 @@ function onToggleArtboard(event) {
 }
 
 function onResetClickHandler() {
-  setSVG(initialSVG);
-  getSVGColors(initialSVG);
-  setItemColor(colorArr);
+  artboard.innerHTML = initialSVG;
+  svgTag = document.querySelector("svg");
+  svgTag.setAttribute("width", "288");
+  svgTag.setAttribute("height", "288");
+  svgTag.style.visibility = "visible";
 
-  updatedSVG = initialSVG;
+  updatedSVG = svgTag.outerHTML;
+  setSVG(initialSVG);
   state = {
     selectedColor: null,
     itemColorIndex: 0,
     showArtboard: true,
   };
+  tiles = {
+    selectedTile: "none",
+    svgSize: 0.5,
+    tileSize: 0.9,
+    borderSize: 0.3,
+    tileColor: "#87ddfd",
+  };
+  monochrome = {
+    hue: 180,
+    saturation: 100,
+  };
+  graytone = {
+    hue: 180,
+    tone: 25,
+  };
+  addTile(
+    tiles.selectedTile,
+    tiles.tileSize,
+    tiles.svgSize,
+    tiles.tileColor,
+    tiles.borderSize
+  );
 }
 
 function onDownloadSvgHandler() {
@@ -383,15 +408,15 @@ function addTile(tile, tileSize, svgSize, tileColor, borderSize) {
 
 function addSquareTile(svg, tileSize, svgSize, tileColor, borderSize) {
   return `
-<svg width="288" height="288" viewbox="0 0 288 288" style="visibility: visible" >
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="288" height="288" viewbox="0 0 288 288" style="visibility: visible" >
   <rect width="288" height="288" ry="${borderSize * 100}" rx="${
     borderSize * 100
-  }" transform="translate(${(288 - tileSize * 288) / 2}, ${
+  }" transform="matrix(${tileSize},0,0,${tileSize},${
     (288 - tileSize * 288) / 2
-  }) scale(${tileSize})" fill="${tileColor}" />
-  <g transform="translate(${(288 - svgSize * 288) / 2}, ${
+  },${(288 - tileSize * 288) / 2})" fill="${tileColor}" />
+  <g transform="matrix(${svgSize},0,0,${svgSize},${(288 - svgSize * 288) / 2},${
     (288 - svgSize * 288) / 2
-  }) scale(${svgSize})">
+  })">
     ${svg}
   </g>
 </svg>`;
@@ -399,10 +424,10 @@ function addSquareTile(svg, tileSize, svgSize, tileColor, borderSize) {
 
 function addSquircleTile(svg, tileSize, svgSize, tileColor) {
   return `
-  <svg width="288" height="288" viewbox="0 0 288 288" style="visibility: visible">
-    <g transform="translate(${(288 - tileSize * 288) / 2}, ${
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="288" height="288" viewbox="0 0 288 288" style="visibility: visible">
+    <g transform="matrix(${tileSize},0,0,${tileSize},${
     (288 - tileSize * 288) / 2
-  }) scale(${tileSize})">
+  },${(288 - tileSize * 288) / 2})">
       <svg width="288" height="288" viewbox="0 0 200 200"><path d="
       M 0, 100
       C 0, 3.0000000000000027 3.0000000000000027, 0 100, 0
@@ -412,9 +437,9 @@ function addSquircleTile(svg, tileSize, svgSize, tileColor) {
   " fill="${tileColor}" ></path>
       </svg>
     </g>
-    <g transform="translate(${(288 - svgSize * 288) / 2}, ${
+    <g transform="matrix(${svgSize},0,0,${svgSize},${
     (288 - svgSize * 288) / 2
-  }) scale(${svgSize})">
+  },${(288 - svgSize * 288) / 2})">
       ${svg}
     </g>
   </svg>`;
@@ -422,15 +447,15 @@ function addSquircleTile(svg, tileSize, svgSize, tileColor) {
 
 function addCircleTile(svg, tileSize, svgSize, tileColor) {
   return `
-  <svg width="288" height="288" viewbox="0 0 288 288" style="visibility: visible">
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="288" height="288" viewbox="0 0 288 288" style="visibility: visible">
     <circle cx="${288 / 2}" cy="${288 / 2}" r="${
     288 / 2
-  }" transform="translate(${(288 - tileSize * 288) / 2}, ${
+  }" transform="matrix(${tileSize},0,0,${tileSize},${
     (288 - tileSize * 288) / 2
-  }) scale(${tileSize})" fill="${tileColor}" />
-    <g transform="translate(${(288 - svgSize * 288) / 2}, ${
+  },${(288 - tileSize * 288) / 2})" fill="${tileColor}" />
+    <g transform="matrix(${svgSize},0,0,${svgSize},${
     (288 - svgSize * 288) / 2
-  }) scale(${svgSize})">
+  },${(288 - svgSize * 288) / 2})">
       ${svg}
     </g>
   </svg>`;
@@ -438,10 +463,10 @@ function addCircleTile(svg, tileSize, svgSize, tileColor) {
 
 function addBeaconTile(svg, tileSize, svgSize, tileColor, borderSize) {
   return `
-  <svg width="288" height="288" viewbox="0 0 288 288" style="visibility: visible">
-    <g transform="translate(${(288 - tileSize * 288) / 2}, ${
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="288" height="288" viewbox="0 0 288 288" style="visibility: visible">
+    <g transform="matrix(${tileSize},0,0,${tileSize},${
     (288 - tileSize * 288) / 2
-  }) scale(${tileSize})">
+  },${(288 - tileSize * 288) / 2})">
       <svg width="288" height="288" viewBox="0 0 288 288" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0 140C0 62.6801 62.6801 0 140 0H148C225.32 0 288 62.6801 288 140V148C288 225.32 225.32 288 148 288H140C62.6801 288 0 225.32 0 148V140Z" fill="${tileColor}"/>
         <rect x="${132 - borderSize * 100}" y="${
@@ -452,9 +477,9 @@ function addBeaconTile(svg, tileSize, svgSize, tileColor, borderSize) {
       </svg>
     </g>
   
-    <g transform="translate(${(288 - svgSize * 288) / 2}, ${
+    <g transform="matrix(${svgSize},0,0,${svgSize},${
     (288 - svgSize * 288) / 2
-  }) scale(${svgSize})">
+  },${(288 - svgSize * 288) / 2})">
       ${svg}
     </g>
   </svg>`;
