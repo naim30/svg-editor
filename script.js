@@ -1,12 +1,3 @@
-// let initialSVG = `<svg width="213" height="186" viewBox="0 0 213 186" fill="none" xmlns="http://www.w3.org/2000/svg">
-// <path fill-rule="evenodd" clip-rule="evenodd" d="M189.169 119.577L157.271 96.1537L150.22 113.584L181.807 126.683C190.741 137.177 195.736 141.552 196.794 139.807C197.685 138.336 196.988 136.959 196.347 135.691C195.846 134.702 195.38 133.78 195.723 132.931C196.508 130.991 202.509 131.196 208.195 131.633C213.882 132.07 212.225 129.54 210.854 128.291C205.049 124.816 197.821 121.912 189.169 119.577ZM21.8884 160.85C24.8188 154.905 34.7984 96.9621 34.7984 96.9621L55.6957 97.0443C55.6957 97.0443 36.341 159.525 34.7984 163.348C32.7944 168.314 36.1984 175.529 38.5065 180.422C38.8636 181.179 39.1945 181.88 39.475 182.509C36.2723 183.942 34.7339 182.21 33.1119 180.384C31.28 178.321 29.3415 176.139 24.7783 178.261C23.0154 179.082 21.3471 180.051 19.7172 180.999C14.0872 184.271 8.91522 187.278 1.87952 182.936C0.764022 182.248 -0.458277 179.657 2.49502 177.632C9.85282 172.587 20.4557 163.757 21.8884 160.85Z" fill="#B28B67"/>
-// <path fill-rule="evenodd" clip-rule="evenodd" d="M94.1854 9.27419L102.832 7.79102C134.915 35.5065 148.093 88.7511 187.42 116.957L177.954 128.69C109.73 120.242 92.8204 55.297 94.1854 9.27419Z" fill="#E87613"/>
-// <path fill-rule="evenodd" clip-rule="evenodd" d="M56.4904 117.942C56.4904 117.942 108.498 117.942 133.001 117.942C136.498 117.942 135.839 112.894 135.333 110.346C129.501 80.9461 106.731 49.2538 106.731 7.40299L84.6624 3.94226C66.4079 33.3007 60.0952 69.4468 56.4904 117.942Z" fill="#DDE3E9"/>
-// <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8873 138.942C44.4487 147.201 41.0767 154.407 37.8994 159.942H21.4904C19.725 102.861 41.3359 58.9386 59.422 32.4551C55.4063 32.1681 51.7816 30.4877 49.4904 26.3534C41.424 11.7983 44.3372 3.78462 52.9576 1.15048C57.6979 -0.298001 62.1561 0.690673 67.4924 1.87417C71.8594 2.8426 76.8154 3.94149 82.9944 3.94221C82.9964 3.94221 82.9984 3.94221 83.0004 3.94221C83.5994 3.94221 84.1444 3.98233 84.6394 4.05908L91.9624 4.47695C91.9624 4.47695 121.695 105.247 108.362 138.942H47.8873Z" fill="#FF9B21"/>
-// <path fill-rule="evenodd" clip-rule="evenodd" d="M47.8872 138.942C52.399 128.106 57.0255 115.458 61.4777 102.396C63.1351 116.781 65.8951 131.228 70.4904 138.942H47.8872Z" fill="black" fill-opacity="0.1"/>
-// </svg>`;
-// let updatedSVG = initialSVG;
-
 let initialSVG = "";
 let updatedSVG = "";
 
@@ -128,9 +119,23 @@ function hslToHex(h, s, l) {
   return `#${f(0)}${f(8)}${f(4)}`;
 }
 
-// setSVG(initialSVG);
-// getSVGColors(initialSVG);
-// setItemColor(colorArr);
+function indexes(source, find) {
+  if (!source) {
+    return [];
+  }
+  if (!find) {
+    return source.split("").map(function (_, i) {
+      return i;
+    });
+  }
+  var result = [];
+  for (i = 0; i < source.length; ++i) {
+    if (source.substring(i, i + find.length) == find) {
+      result.push(i);
+    }
+  }
+  return result;
+}
 
 function onOpenFileHandler(event) {
   let file = event.target.files[0];
@@ -163,7 +168,7 @@ function setSVG(img) {
 function getSVGColors(initialSVG) {
   colorArr = [...new Set(initialSVG.match(regx))].map((color) => [
     color,
-    initialSVG.indexOf(color),
+    indexes(initialSVG, color),
   ]);
 }
 
@@ -186,10 +191,12 @@ function onColorInputHandler(event) {
 
 function changeColor(color) {
   state.selectedColor = color;
-  updatedSVG =
-    updatedSVG.substring(0, colorArr[state.itemColorIndex][1]) +
-    state.selectedColor +
-    updatedSVG.substring(colorArr[state.itemColorIndex][1] + 7);
+  for (i = 0; i < colorArr[state.itemColorIndex][1].length; i++) {
+    updatedSVG =
+      updatedSVG.substring(0, colorArr[state.itemColorIndex][1][i]) +
+      state.selectedColor +
+      updatedSVG.substring(colorArr[state.itemColorIndex][1][i] + 7);
+  }
   colorArr[state.itemColorIndex][0] = state.selectedColor;
 
   document.querySelector(
@@ -329,6 +336,7 @@ function showMenu(menuName) {
   if (state.selectedMenu === "monochrome-color") {
     monochromeConvert(monochrome.hue, monochrome.saturation);
   }
+
   if (state.selectedMenu === "gray-tone") {
     grayToneConvert(graytone.hue, graytone.tone);
   }
@@ -336,7 +344,9 @@ function showMenu(menuName) {
 
 function itemColor() {
   for (let i = 0; i < colorArr.length; i++) {
-    chageColorForMonoGray(colorArr[i][0], colorArr[i][1]);
+    for (let j = 0; j < colorArr[i][1].length; j++) {
+      chageColorForMonoGray(colorArr[i][0], colorArr[i][1][j]);
+    }
   }
 }
 
@@ -603,7 +613,9 @@ function monochromeConvert(hue, saturation) {
   for (let i = 0; i < colorArr.length; i++) {
     let [h, s, l] = hexToHSL(colorArr[i][0]);
     let color = hslToHex(hue, saturation, l);
-    chageColorForMonoGray(color, colorArr[i][1]);
+    for (let j = 0; j < colorArr[i][1][j]; j++) {
+      chageColorForMonoGray(color, colorArr[i][1][j]);
+    }
   }
 }
 
@@ -629,8 +641,8 @@ function onGrayToneValueChange(event) {
   event.target.style.background = `linear-gradient(
     to right,
     #6666ff 0%,
-    #6666ff ${event.target.value * 2}%,
-    #ebedf5 ${event.target.value * 2}%,
+    #6666ff ${event.target.value * 4}%,
+    #ebedf5 ${event.target.value * 4}%,
     #ebedf5 100%
   )`;
   monochromeConvert(graytone.hue, graytone.tone);
@@ -662,7 +674,26 @@ function grayToneConvert(hue, tone) {
   for (let i = 0; i < colorArr.length; i++) {
     let [h, s, l] = hexToHSL(colorArr[i][0]);
     let color = hslToHex(hue, tone, l);
-    chageColorForMonoGray(color, colorArr[i][1]);
+    for (let j = 0; j < colorArr[i][1].length; j++) {
+      chageColorForMonoGray(color, colorArr[i][1][j]);
+    }
+  }
+}
+
+function onSvgElementClick(event) {
+  if (state.selectedMenu === "item-color") {
+    let color = event.target.outerHTML.match(regx);
+    if (color.length === 1) {
+      let index = colorArr.findIndex((col) => col[0] === color[0]);
+
+      document
+        .getElementsByClassName("selectedItemColor")[0]
+        ?.classList.remove("selectedItemColor");
+      document
+        .querySelector(`[itemColorIndex="${index}"]`)
+        .classList.add("selectedItemColor");
+      state.itemColorIndex = index;
+    }
   }
 }
 
@@ -693,3 +724,4 @@ monochromeDefaultColor.addEventListener(
 grayToneHueSelect.addEventListener("input", onGrayToneColorChange);
 greyToneValueSelect.addEventListener("input", onGrayToneValueChange);
 grayToneDefaultColor.addEventListener("click", onGrayToneDefaultColorHandler);
+artboard.addEventListener("click", onSvgElementClick);
