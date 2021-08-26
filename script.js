@@ -217,8 +217,9 @@ function onItemColorClickHandler(event) {
     document
       .getElementsByClassName("selectedItemColor")[0]
       ?.classList.remove("selectedItemColor");
-    event.target.classList.add("selectedItemColor");
+
     state.itemColorIndex = event.target.getAttribute("itemColorIndex");
+    event.target.classList.add("selectedItemColor");
   }
 }
 
@@ -308,6 +309,8 @@ function onRecolorButtonHandler(event) {
     event.target.tagName === "BUTTON"
       ? event.target.classList.add("selectedRecolorOption")
       : event.target.parentNode.classList.add("selectedRecolorOption");
+
+    document.getElementsByClassName(state.selectedMenu)[0].scrollTop = 0;
   }
 }
 
@@ -318,6 +321,7 @@ function onAddTilesHandler(event) {
   ) {
     state.selectedMenu = "add-tiles";
     showMenu(state.selectedMenu);
+    document.getElementsByClassName("add-tiles-menu")[0].scrollTop = 0;
   }
 }
 
