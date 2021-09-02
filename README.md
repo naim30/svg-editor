@@ -2,7 +2,7 @@
 
 ## Demo
 
-You can see demo [here](https://naim30.github.io/svg_editor/)
+You can see demo [here](https://naim30.github.io/svg-editor/)
 
 ## Description
 
