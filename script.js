@@ -129,7 +129,7 @@ function indexes(source, find) {
     });
   }
   var result = [];
-  for (i = 0; i < source.length; ++i) {
+  for (let i = 0; i < source.length; ++i) {
     if (source.substring(i, i + find.length) == find) {
       result.push(i);
     }
