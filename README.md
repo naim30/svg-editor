@@ -60,6 +60,22 @@ Clone the repo
 git clone https://github.com/naim30/svg-editor.git
 ```
 
+## Changelog
+
+### v1.0.0 :
+
+### Added or Changed
+
+- change colors from item color menu.
+- monochrome and gray scale color filter.
+- background tiles.
+
+### v2.0.0 :
+
+### Added or Changed
+
+- you can select color by clicking on svg element.
+
 ## Contact
 
 Naimish Lukhi :
