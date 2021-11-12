@@ -52,7 +52,7 @@ To build this Landing page I used..
 
 ## Getting Started
 
-you do not need any prerequisites for this project just clone the repo and open `index.html` in browser.
+you do not need any prerequisites for this project, just clone the repo and open `index.html` in browser.
 
 Clone the repo
 
