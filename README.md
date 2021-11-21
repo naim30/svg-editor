@@ -2,7 +2,7 @@
 
 <br />
 <div align="center">
-  <h1 align="center">SVG editor</h1>
+  <h1 align="center">.svg editor</h1>
 
   <p align="center">
     Change colors - Add tiles - Modified your SVGs.
