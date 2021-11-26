@@ -9,6 +9,12 @@
   </p>
 </div>
 
+## Demo
+
+Here is a quick demo of the app. I hope you enjoy it.
+
+> [The Demo Link](https://naim30.github.io/svg-editor/)
+
 ## About The Project
 
 ![Landing page Screenshot](public/svg-editor.jpg)
@@ -36,15 +42,9 @@ Here's why:
 
 Use your creativity and color talent to make your SVG more attractive.
 
-## Demo
-
-Here is a quick demo of the app. I hope you enjoy it.
-
-> [The Demo Link](https://naim30.github.io/svg-editor/)
-
 ## Built With
 
-To build this Landing page I used..
+To build this App I used..
 
 - HTML
 - CSS
