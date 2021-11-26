@@ -10,9 +10,43 @@ body {
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   font-family: "Lexend", sans-serif;
+}
+
+.navigation {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.navigation > div {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  width: 80%;
+  align-items: center;
+}
+
+.navigation > div > .logo {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+}
+
+.navigation > div > .githubLink {
+  height: 80%;
+}
+
+.navigation > div > .githubLink > img {
+  height: 100%;
 }
 
 /* svg editor main area  */
